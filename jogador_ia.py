@@ -34,25 +34,25 @@ class JogadorIA(Jogador):
                 elif self.matriz[j][2-j] == Tabuleiro.JOGADOR_X:
                     cont4 += 4
 
-            # Verifica vitória da IA
-            if cont == 2:  # Vitória em linha
+            
+            if cont == 2:  
                 for c in range(0, 3):
                     if self.matriz[i][c] == Tabuleiro.DESCONHECIDO:
                         return (i, c)
-            if cont2 == 2:  # Vitória em coluna
+            if cont2 == 2:  
                 for c in range(0, 3):
                     if self.matriz[c][i] == Tabuleiro.DESCONHECIDO:
                         return (c, i)
-            if cont3 == 2:  # Vitória na diagonal principal
+            if cont3 == 2: 
                 for c in range(0, 3):
                     if self.matriz[c][c] == Tabuleiro.DESCONHECIDO:
                         return (c, c)
-            if cont4 == 2:  # Vitória na diagonal secundária
+            if cont4 == 2:  
                 for c in range(0, 3):
                     if self.matriz[c][2-c] == Tabuleiro.DESCONHECIDO:
                         return (c, 2-c)
 
-        # Caso não possa vencer, tenta bloquear (r1b adaptado)
+        #r1b
         for i in range(0, 3):
             cont = 0
             cont2 = 0
@@ -76,25 +76,54 @@ class JogadorIA(Jogador):
                 elif self.matriz[j][2-j] == Tabuleiro.JOGADOR_0:
                     cont4 += 1
 
-            # Bloqueio do jogador
-            if cont == 8:  # Bloqueio em linha
+        
+            if cont == 8:  
                 for c in range(0, 3):
                     if self.matriz[i][c] == Tabuleiro.DESCONHECIDO:
                         return (i, c)
-            if cont2 == 8:  # Bloqueio em coluna
+            if cont2 == 8:  
                 for c in range(0, 3):
                     if self.matriz[c][i] == Tabuleiro.DESCONHECIDO:
                         return (c, i)
-            if cont3 == 8:  # Bloqueio na diagonal principal
+            if cont3 == 8:  
                 for c in range(0, 3):
                     if self.matriz[c][c] == Tabuleiro.DESCONHECIDO:
                         return (c, c)
-            if cont4 == 8:  # Bloqueio na diagonal secundária
+            if cont4 == 8:  
                 for c in range(0, 3):
                     if self.matriz[c][2-c] == Tabuleiro.DESCONHECIDO:
                         return (c, 2-c)
+        #r2
+        analizadas = [] 
+        for l in range(0, 3):
+            cont = 0
 
-        # r3: Joga no centro se estiver vazio
+            for c in range(0, 3):
+                if self.matriz[l][c] == Tabuleiro.JOGADOR_0:
+                    cont += 1
+                    analizadas.append((l, c))
+                elif self.matriz[l][c] == Tabuleiro.JOGADOR_X:
+                    cont += 4
+            
+            if cont == 1:  
+                cont = 0
+                for c in range(0, 3):
+                    
+                    if (c, l) in analizadas:
+                        continue
+                    if self.matriz[c][l] == Tabuleiro.JOGADOR_0:
+                        cont += 1
+                    elif self.matriz[c][l] == Tabuleiro.JOGADOR_X:
+                        cont += 4
+                if cont == 1:  
+                    for c in range(0, 3):
+                        
+                        if (l, c) in analizadas:
+                            continue
+                        if self.matriz[c][l] == Tabuleiro.DESCONHECIDO:
+                            return (c, l)
+                    
+        # r3
         if self.matriz[1][1] == Tabuleiro.DESCONHECIDO:
             return (1, 1)
 
@@ -109,7 +138,7 @@ class JogadorIA(Jogador):
             return(0,0)
 
 
-        # r5: Jogadas de cantos
+        # r5
         cantos = []
         if self.matriz[0][0] == Tabuleiro.DESCONHECIDO:
             cantos.append((0, 0))
@@ -123,7 +152,7 @@ class JogadorIA(Jogador):
         if len(cantos) > 0:
             return choice(cantos)
 
-        # r6: Escolha aleatória caso nenhuma regra anterior seja válida
+        # r6
         lista = []
         for l in range(0, 3):
             for c in range(0, 3):
