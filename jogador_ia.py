@@ -10,7 +10,7 @@ class JogadorIA(Jogador):
         super()._init_(tabuleiro, tipo)
 
     def getJogada(self) -> (int, int):
-        # Prioriza vencer (r1 e r1b combinados)
+        #r1a
         for i in range(0, 3):
             cont = 0
             cont2 = 0
